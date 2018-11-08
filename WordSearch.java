@@ -24,16 +24,17 @@ public class WordSearch{
      *@return a String with each character separated by spaces, and rows
      *separated by newlines.
      */
-    public String toString(){
-      String out = "";
-      for (int i = 0; i < data.length; i++) {
-        for (int j = 0; j < data[i].length; j++) {
-          out += data[i][j] + " ";
-        }
-        out += "\n";
-      }
-      return out;
-    }
+     public String toString() {
+         String out = "";
+         for (int i = 0; i < data.length; i++) {
+             for (int j = 0; j < data[i].length; j++) {
+                 out += data[i][j];
+                 if (i != data[i].length-1) out += ' ';
+             }
+             if (i != data.length-1) out += '\n';
+         }
+         return out;
+     }
 
 
     /**Attempts to add a given word to the specified position of the WordGrid.
@@ -47,21 +48,18 @@ public class WordSearch{
      * or there are overlapping letters that do not match, then false is returned
      * and the board is NOT modified.
      */
+
     public boolean addWordHorizontal(String word,int row, int col){
-      int wordLen = word.length();
-      int wIndex = 0;
-      if (data[row].length - wordLen <= 0) {return false;}
-      else {
-        for (int i = row; i < data.length; i++) {
-          for (int j = col; j < data[i].length && wIndex < wordLen; j++) {
-            data[i][j] = word.charAt(wIndex);
-            wIndex++;
-          }
+      int len = word.length();
+      if (col + len > data[row].length) return false;
+        for (int i = 0; i < len ; i++) {
+            if (data[row][i+col] != '_' && data[row][i+col] != word.charAt(i)) return false;
+        }
+        for (int i = 0; i < len; i++) {
+            data[row][i+col] = word.charAt(i);
         }
         return true;
-      }
     }
-
    /**Attempts to add a given word to the specified position of the WordGrid.
      *The word is added from top to bottom, must fit on the WordGrid, and must
      *have a corresponding letter to match any letters that it overlaps.

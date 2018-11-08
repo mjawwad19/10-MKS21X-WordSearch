@@ -11,6 +11,9 @@ public class Drive{
     System.out.println(grid);
     System.out.println(grid.addWordHorizontal("dogma", 0, 1)); //false;
     grid.addWordHorizontal("dogma", 0, 1);
-    System.out.println(grid); //nochange
+    System.out.println(grid); //no change
+    System.out.println(grid.addWordHorizontal("hay", 0, 1)); //false;
+    grid.addWordHorizontal("hay", 0, 1);
+    System.out.println(grid); // no change
   }
 }
