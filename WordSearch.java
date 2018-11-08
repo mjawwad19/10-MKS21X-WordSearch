@@ -31,7 +31,7 @@ public class WordSearch{
          for (int i = 0; i < data.length; i++) {
              for (int j = 0; j < data[i].length; j++) {
                  out += data[i][j];
-                 if (i != data[i].length-1) out += ' ';
+                 if (j != data[i].length-1) out += ' ';
              }
              if (i != data.length-1) out += '\n';
          }
