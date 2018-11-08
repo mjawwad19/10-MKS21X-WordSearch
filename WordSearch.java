@@ -42,7 +42,12 @@ public class WordSearch{
          return out;
      }
 
-    /*private helper method for all add methods*/
+    /*private helper method for all add methods
+    after Mr.K hinted we could use a helper to clean up repetitive code, I came up
+    with this:
+    takes all the previous return false conditionals;
+    since the only difference between the add is the adding index of the word direction,
+    a 0 or 1 can dictate if I want horizontal (0,1), vertical (1,0) or diagonal (1,1)*/
     private boolean addWord(String word, int row, int col, int r, int c) {
       int len = word.length();
       if (row < 0 ||
