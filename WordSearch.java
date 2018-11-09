@@ -1,20 +1,45 @@
+import java.util.*; //random, scanner, arraylist
+import java.io.*; //file, filenotfoundexception
+
+
 public class WordSearch{
     private char[][]data;
     private int width, height;
+    //the random seed used to produce this WordSearch
+    private int seed;
 
+    //a random Object to unify your random calls
+    private Random randgen;
 
+    //all words from a text file get added to wordsToAdd, indicating that they have not yet been added
+    private ArrayList<String> wordsToAdd;
+
+    //all words that were successfully added get moved into wordsAdded.
+    private ArrayList<String> wordsAdded;
+
+    //choose a randSeed using the clock random
     /**Initialize the grid to the size specified
      *and fill all of the positions with '_'
      *@param row is the starting height of the WordSearch
      *@param col is the starting width of the WordSearch
      */
-    public WordSearch(int rows,int cols){
+    public WordSearch(int rows, int cols, String fileName) throws FileNotFoundException {
+      randgen = new Random();
+      seed = randgen.nextInt();
+      //copied over from original constructor
       if (rows <= 0 ||
           cols <= 0) throw new IllegalArgumentException("there is no such thing as a negative row or column");
       data = new char[rows][cols];
       width = cols;
       height = rows;
       clear();
+      File f = new File(fileName);
+      Scanner in = new Scanner(f);
+      wordsToAdd = new ArrayList<>();
+      wordsAdded = new ArrayList<>();
+      while (in.hasNext()) {
+        wordsToAdd.add(in.nextLine());
+      }
     }
 
     /**Set all values in the WordSearch to underscores'_'*/
@@ -67,6 +92,7 @@ public class WordSearch{
       }
       return true;
     }
+
     /**Attempts to add a given word to the specified position of the WordGrid.
      *The word is added from left to right, must fit on the WordGrid, and must
      *have a corresponding letter to match any letters that it overlaps.
@@ -110,5 +136,4 @@ public class WordSearch{
    public boolean addWordDiagonal(String word,int row, int col){
      return addWord(word, row, col, 1, 1);
    }
-
 }
