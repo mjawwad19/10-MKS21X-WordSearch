@@ -50,20 +50,30 @@ public class WordSearch{
         }
       }
     }
-
+    // just makes life easier by reading the arrayLists of the words :)
+    private String ALToString(ArrayList<String> a) {
+      String out = "";
+      for (int i = 0; i < a.size(); i++) {
+        if (i != a.size() - 1) out += a.get(i) + ", ";
+        else out += a.get(i);
+      }
+      return out;
+    }
     /**Each row is a new line, there is a space between each letter
      *@return a String with each character separated by spaces, and rows
      *separated by newlines.
      */
     public String toString() {
-         String out = "";
+         String out = "|";
          for (int i = 0; i < data.length; i++) {
              for (int j = 0; j < data[i].length; j++) {
                  out += data[i][j];
                  if (j != data[i].length-1) out += ' ';
              }
-             if (i != data.length-1) out += '\n';
+             if (i != data.length-1) out += "|" + '\n' + "|";
          }
+         out += "|" + '\n';
+         out += "Words: " + ALToString(wordsToAdd) + ALToString(wordsAdded);
          return out;
      }
 
