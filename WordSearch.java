@@ -41,7 +41,14 @@ public class WordSearch{
         wordsToAdd.add(in.nextLine());
       }
     }
-
+    public WordSearch(int rows, int cols) {
+      if (rows <= 0 ||
+          cols <= 0) throw new IllegalArgumentException("there is no such thing as a negative row or column");
+      data = new char[rows][cols];
+      width = cols;
+      height = rows;
+      clear();
+    }
     /**Set all values in the WordSearch to underscores'_'*/
     private void clear(){
       for (int i = 0; i < data.length; i++) {
@@ -73,7 +80,7 @@ public class WordSearch{
              if (i != data.length-1) out += "|" + '\n' + "|";
          }
          out += "|" + '\n';
-         out += "Words: " + ALToString(wordsAdded) + ", " + ALToString(wordsToAdd);
+         out += "Words: " + ALToString(wordsAdded);
          return out;
      }
 
@@ -89,7 +96,9 @@ public class WordSearch{
           c < 0 ||
           r >= height ||
           c >= width ||
-          rowIncrement == 0 && colIncrement == 0) return false;
+          rowIncrement == 0 && colIncrement == 0 ||
+          rowIncrement > 1 ||
+          colIncrement < -1) return false;
       // this if is from all addWords previously made nothing new
       if (r + (len -1) * rowIncrement < 0 || r + (len -1) * rowIncrement >= height ||
           c + (len -1) * colIncrement < 0 || c + (len - 1) * colIncrement >= width) return false;
@@ -105,13 +114,7 @@ public class WordSearch{
       wordsAdded.add(word);
       return true;
     }
-    public boolean addWordHorizontal(String word, int row, int col) {
-      return addWord(row, col, word, 0, 1);
-    }
-    public boolean addWordVertical(String word, int row, int col) {
-      return addWord(row, col, word, 1, 0);
-    }
-    public boolean addWordDiagonal(String word, int row, int col) {
-      return addWord(row, col, word, 1, 1);
+    public boolean addWord(String word, int row, int col, int rowIncrement, int colIncrement) {
+      return addWord(row, col, word, rowIncrement, colIncrement);
     }
   }
