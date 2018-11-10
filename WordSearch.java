@@ -79,6 +79,7 @@ public class WordSearch{
          out += "|" + '\n';
          out += "Words: " + ALToString(wordsAdded);
          //System.out.println("Words not added: " + ALToString(wordsToAdd));
+         out += " (seed: " + seed + ")";
          return out;
      }
      /**Attempts to add a given word to the specified position of the WordGrid.
@@ -118,7 +119,7 @@ public class WordSearch{
       return true;
     }
     // Bless Victor and Ethan for explaining so much for this to work
-    private boolean addAllWords() {
+    private void addAllWords() {
       int countFail = 0;
       int index = 0;
       int row, col, rowIncrement,colIncrement,rowSize,colSize;
@@ -165,6 +166,5 @@ public class WordSearch{
         if (added == false) wordsToAdd.remove(index);
         //remove a word from being chosen aaain if it cant be added ever
       }
-      return true;
     }
   }
