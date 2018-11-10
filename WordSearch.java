@@ -56,8 +56,8 @@ public class WordSearch{
       wordsToAdd = new ArrayList<>();
       wordsAdded = new ArrayList<>();
       while (in.hasNext()) {
-        wordsToAdd.add(in.nextLine());
-      }  
+        wordsToAdd.add(in.nextLine().toUpperCase());
+      }
     }
     public WordSearch(int rows, int cols) {
       if (rows <= 0 ||
@@ -99,6 +99,7 @@ public class WordSearch{
          }
          out += "|" + '\n';
          out += "Words: " + ALToString(wordsAdded);
+         //System.out.println("Words not added: " + ALToString(wordsToAdd));
          return out;
      }
 
@@ -110,6 +111,7 @@ public class WordSearch{
     a 0 or 1 can dictate if I want horizontal (0,1), vertical (1,0) or diagonal (1,1)*/
     private boolean addWord(int r, int c, String word, int rowIncrement, int colIncrement) {
       int len = word.length();
+      word = word.toUpperCase();
       if (r < 0 ||
           c < 0 ||
           r >= height ||
