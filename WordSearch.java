@@ -38,7 +38,7 @@ public class WordSearch{
       wordsToAdd = new ArrayList<>();
       wordsAdded = new ArrayList<>();
       while (in.hasNext()) {
-        wordsToAdd.add(in.nextLine());
+        wordsToAdd.add(in.nextLine().toUpperCase());
       }
     }
     public WordSearch(int rows, int cols, String fileName, int randSeed) throws FileNotFoundException {
