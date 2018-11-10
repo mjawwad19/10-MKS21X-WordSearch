@@ -7,13 +7,10 @@ public class WordSearch{
     private int width, height;
     //the random seed used to produce this WordSearch
     private int seed;
-
     //a random Object to unify your random calls
     private Random randgen;
-
     //all words from a text file get added to wordsToAdd, indicating that they have not yet been added
     private ArrayList<String> wordsToAdd;
-
     //all words that were successfully added get moved into wordsAdded.
     private ArrayList<String> wordsAdded;
 
@@ -23,10 +20,7 @@ public class WordSearch{
      *@param row is the starting height of the WordSearch
      *@param col is the starting width of the WordSearch
      */
-    public WordSearch(int rows, int cols, String fileName) throws FileNotFoundException {
-      randgen = new Random();
-      seed = randgen.nextInt();
-      //copied over from original constructor
+    private void helpConstruct(int rows, int cols, String fileName) throws FileNotFoundException {
       if (rows <= 0 ||
           cols <= 0) throw new IllegalArgumentException("there is no such thing as a negative row or column");
       data = new char[rows][cols];
@@ -41,23 +35,15 @@ public class WordSearch{
         wordsToAdd.add(in.nextLine().toUpperCase());
       }
     }
+    public WordSearch(int rows, int cols, String fileName) throws FileNotFoundException {
+      randgen = new Random();
+      seed = randgen.nextInt();
+      helpConstruct(rows, cols, fileName);
+    }
     public WordSearch(int rows, int cols, String fileName, int randSeed) throws FileNotFoundException {
       seed = randSeed;
       randgen = new Random(seed);
-      //copied over from original constructor
-      if (rows <= 0 ||
-          cols <= 0) throw new IllegalArgumentException("there is no such thing as a negative row or column");
-      data = new char[rows][cols];
-      width = cols;
-      height = rows;
-      clear();
-      File f = new File(fileName);
-      Scanner in = new Scanner(f);
-      wordsToAdd = new ArrayList<>();
-      wordsAdded = new ArrayList<>();
-      while (in.hasNext()) {
-        wordsToAdd.add(in.nextLine().toUpperCase());
-      }
+      helpConstruct(rows, cols, fileName);
     }
     public WordSearch(int rows, int cols) {
       if (rows <= 0 ||
