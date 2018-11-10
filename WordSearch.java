@@ -34,6 +34,7 @@ public class WordSearch{
       while (in.hasNext()) {
         wordsToAdd.add(in.nextLine().toUpperCase());
       }
+      addAllWords();
     }
     public WordSearch(int rows, int cols, String fileName) throws FileNotFoundException {
       randgen = new Random();
@@ -44,14 +45,6 @@ public class WordSearch{
       seed = randSeed;
       randgen = new Random(seed);
       helpConstruct(rows, cols, fileName);
-    }
-    public WordSearch(int rows, int cols) {
-      if (rows <= 0 ||
-          cols <= 0) throw new IllegalArgumentException("there is no such thing as a negative row or column");
-      data = new char[rows][cols];
-      width = cols;
-      height = rows;
-      clear();
     }
     /**Set all values in the WordSearch to underscores'_'*/
     private void clear(){
@@ -88,13 +81,19 @@ public class WordSearch{
          //System.out.println("Words not added: " + ALToString(wordsToAdd));
          return out;
      }
-
-    /*private helper method for all add methods
-    after Mr.K hinted we could use a helper to clean up repetitive code, I came up
-    with this:
-    takes all the previous return false conditionals;
-    since the only difference between the add is the adding index of the word direction,
-    a 0 or 1 can dictate if I want horizontal (0,1), vertical (1,0) or diagonal (1,1)*/
+     /**Attempts to add a given word to the specified position of the WordGrid.
+      *The word is added in the direction rowIncrement,colIncrement
+      *Words must have a corresponding letter to match any letters that it overlaps.
+      *
+      *@param word is any text to be added to the word grid.
+      *@param row is the vertical locaiton of where you want the word to start.
+      *@param col is the horizontal location of where you want the word to start.
+      *@param rowIncrement is -1,0, or 1 and represents the displacement of each letter in the row direction
+      *@param colIncrement is -1,0, or 1 and represents the displacement of each letter in the col direction
+      *@return true when: the word is added successfully.
+      *        false when: the word doesn't fit, OR  rowchange and colchange are both 0,
+      *        OR there are overlapping letters that do not match
+      */
     private boolean addWord(int r, int c, String word, int rowIncrement, int colIncrement) {
       int len = word.length();
       word = word.toUpperCase();
@@ -116,24 +115,56 @@ public class WordSearch{
       for (int i = 0; i < len; i++) {
         data[r +i*rowIncrement][c +i*colIncrement] = word.charAt(i);
       }
-      wordsToAdd.remove(word);
-      wordsAdded.add(word);
       return true;
     }
-    /**Attempts to add a given word to the specified position of the WordGrid.
-     *The word is added in the direction rowIncrement,colIncrement
-     *Words must have a corresponding letter to match any letters that it overlaps.
-     *
-     *@param word is any text to be added to the word grid.
-     *@param row is the vertical locaiton of where you want the word to start.
-     *@param col is the horizontal location of where you want the word to start.
-     *@param rowIncrement is -1,0, or 1 and represents the displacement of each letter in the row direction
-     *@param colIncrement is -1,0, or 1 and represents the displacement of each letter in the col direction
-     *@return true when: the word is added successfully.
-     *        false when: the word doesn't fit, OR  rowchange and colchange are both 0,
-     *        OR there are overlapping letters that do not match
-     */
-    public boolean addWord(String word, int row, int col, int rowIncrement, int colIncrement) {
-      return addWord(row, col, word, rowIncrement, colIncrement);
+    // Bless Victor and Ethan for explaining so much for this to work
+    private boolean addAllWords() {
+      int countFail = 0;
+      int index = 0;
+      int row, col, rowIncrement,colIncrement,rowSize,colSize;
+      String word;
+      boolean added;
+      while (!wordsToAdd.isEmpty()) {
+        countFail = 0;
+        //Mr K's positional tries
+        added = false;
+        //whether the specifc word was added or not
+        index = randgen.nextInt()%wordsToAdd.size();
+        //randomly select a word from wordsToAdd (step 1)
+        if (index < 0) index += wordsToAdd.size();
+        // solving an index out of bounds ASAP
+        word = wordsToAdd.get(index).toUpperCase();
+        int len = word.length();
+        // for consistency with other fxns
+        rowIncrement = randgen.nextInt()%2;
+        colIncrement = randgen.nextInt()%2;
+        // randomly select a direction to go from
+        /* thanks to an explanation from Victor, I should also randomly generate
+        the position on the grid because otherwise it would
+        a) take too long
+        b) then the randomness of word choice is ruined because only a few would
+        actually work in a specific position, which would ALSO add more time*/
+        rowSize = height + 1 - len* colIncrement;
+        colSize = width + 1 - len * rowIncrement;
+        // this is to help choose the ideal position to add the word, similar to helper
+        if (rowSize > 0 && colSize > 0) {
+          while (countFail < 1000 && added == false) {
+            row = randgen.nextInt()% rowSize;
+            if (row < 0) row += rowSize;
+            col = randgen.nextInt()% colSize;
+            if (col < 0) col += colSize;
+            if (addWord(row, col, word, rowIncrement, colIncrement)) {
+              wordsAdded.add(wordsToAdd.remove(index));
+              //remove a successfully added word and put it into wordsAdded
+              added = true;
+              //move on to the NEXT word assuming there is a next word to Add
+            }
+            else countFail ++;
+          }
+        }
+        if (added == false) wordsToAdd.remove(index);
+        //remove a word from being chosen aaain if it cant be added ever
+      }
+      return true;
     }
   }
