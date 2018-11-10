@@ -73,7 +73,7 @@ public class WordSearch{
              if (i != data.length-1) out += "|" + '\n' + "|";
          }
          out += "|" + '\n';
-         out += "Words: " + ALToString(wordsToAdd) + ALToString(wordsAdded);
+         out += "Words: " + ALToString(wordsAdded) + ", " + ALToString(wordsToAdd);
          return out;
      }
 
