@@ -41,6 +41,24 @@ public class WordSearch{
         wordsToAdd.add(in.nextLine());
       }
     }
+    public WordSearch(int rows, int cols, String fileName, int randSeed) throws FileNotFoundException {
+      seed = randSeed;
+      randgen = new Random(seed);
+      //copied over from original constructor
+      if (rows <= 0 ||
+          cols <= 0) throw new IllegalArgumentException("there is no such thing as a negative row or column");
+      data = new char[rows][cols];
+      width = cols;
+      height = rows;
+      clear();
+      File f = new File(fileName);
+      Scanner in = new Scanner(f);
+      wordsToAdd = new ArrayList<>();
+      wordsAdded = new ArrayList<>();
+      while (in.hasNext()) {
+        wordsToAdd.add(in.nextLine());
+      }  
+    }
     public WordSearch(int rows, int cols) {
       if (rows <= 0 ||
           cols <= 0) throw new IllegalArgumentException("there is no such thing as a negative row or column");
@@ -114,6 +132,19 @@ public class WordSearch{
       wordsAdded.add(word);
       return true;
     }
+    /**Attempts to add a given word to the specified position of the WordGrid.
+     *The word is added in the direction rowIncrement,colIncrement
+     *Words must have a corresponding letter to match any letters that it overlaps.
+     *
+     *@param word is any text to be added to the word grid.
+     *@param row is the vertical locaiton of where you want the word to start.
+     *@param col is the horizontal location of where you want the word to start.
+     *@param rowIncrement is -1,0, or 1 and represents the displacement of each letter in the row direction
+     *@param colIncrement is -1,0, or 1 and represents the displacement of each letter in the col direction
+     *@return true when: the word is added successfully.
+     *        false when: the word doesn't fit, OR  rowchange and colchange are both 0,
+     *        OR there are overlapping letters that do not match
+     */
     public boolean addWord(String word, int row, int col, int rowIncrement, int colIncrement) {
       return addWord(row, col, word, rowIncrement, colIncrement);
     }
