@@ -148,7 +148,7 @@ public class WordSearch{
         colSize = width + 1 - len * rowIncrement;
         // this is to help choose the ideal position to add the word, similar to helper
         if (rowSize > 0 && colSize > 0) {
-          while (countFail < 1000 && added == false) {
+          while (countFail < 100 && added == false) {
             row = randgen.nextInt()% rowSize;
             if (row < 0) row += rowSize;
             col = randgen.nextInt()% colSize;
