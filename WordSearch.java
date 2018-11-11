@@ -22,7 +22,7 @@ public class WordSearch{
      */
     private void helpConstruct(int rows, int cols, String fileName) throws FileNotFoundException {
       if (rows <= 0 ||
-          cols <= 0) throw new IllegalArgumentException("there is no such thing as a negative row or column");
+          cols <= 0) throw new IllegalArgumentException("there is no such thing as a negative/0 row height or column width");
       data = new char[rows][cols];
       width = cols;
       height = rows;
