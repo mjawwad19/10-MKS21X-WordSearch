@@ -3,21 +3,6 @@ import java.io.*;
 
 public class Drive{
   public static void main(String[] args) {
-    /*try {
-      WordSearch grid = new WordSearch(175,112, "pokemon.txt");
-      //this takes up the whole screen
-      System.out.println(grid);
-    }catch(FileNotFoundException e) {
-      System.out.println("File not found: " + "pokemon.txt");
-      System.exit(1);
-    }
-  /*try {
-    WordSearch grid0 = new WordSearch(50,50, "words.txt", 100);
-    System.out.println(grid0);
-  }catch(FileNotFoundException e) {
-    System.out.println("File not found: " + "words.txt");
-    System.exit(1);
-  }*/
   int defaultRow = 10;
   int defaultCol = 10;
   int defaultSeed = 0;
