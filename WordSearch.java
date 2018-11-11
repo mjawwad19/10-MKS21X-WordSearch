@@ -40,6 +40,8 @@ public class WordSearch{
     public WordSearch(int rows, int cols, String fileName) throws FileNotFoundException {
       randgen = new Random();
       seed = randgen.nextInt();
+      randgen = new Random(seed);
+      //I still don't know if this is correct :/
       /*so I talked to Ethan and Victor and apparently this isn't the way to go
       and I should be using System.currentTimeMillis() but I don't think we've learned that?
       I'm just using what I can see from the post on stuycs
@@ -109,10 +111,11 @@ public class WordSearch{
           c >= width ||
           rowIncrement == 0 && colIncrement == 0 ||
           rowIncrement > 1 ||
-          colIncrement < -1) return false;
-      // this if is from all addWords previously made nothing new
-      if (r + (len -1) * rowIncrement < 0 || r + (len -1) * rowIncrement >= height ||
-          c + (len -1) * colIncrement < 0 || c + (len - 1) * colIncrement >= width) return false;
+          colIncrement < -1
+          r + (len -1) * rowIncrement < 0 ||
+          r + (len -1) * rowIncrement >= height ||
+          c + (len -1) * colIncrement < 0 ||
+          c + (len - 1) * colIncrement >= width) return false;
       // this is a combination of col + len > data[row] // row + len > data[col]
       for (int i = 0; i < len; i++) {
         if (data[r +i*rowIncrement] [c +i*colIncrement] != '_' &&
