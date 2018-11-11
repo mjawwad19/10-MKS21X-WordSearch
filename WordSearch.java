@@ -20,6 +20,7 @@ public class WordSearch{
      *@param row is the starting height of the WordSearch
      *@param col is the starting width of the WordSearch
      */
+    //the helper is the repetitive code in my constructors//
     private void helpConstruct(int rows, int cols, String fileName) throws FileNotFoundException {
       if (rows <= 0 ||
           cols <= 0) throw new IllegalArgumentException("there is no such thing as a negative/0 row height or column width");
