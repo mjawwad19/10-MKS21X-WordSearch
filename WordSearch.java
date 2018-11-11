@@ -40,6 +40,10 @@ public class WordSearch{
     public WordSearch(int rows, int cols, String fileName) throws FileNotFoundException {
       randgen = new Random();
       seed = randgen.nextInt();
+      /*so I talked to Ethan and Victor and apparently this isn't the way to go
+      and I should be using System.currentTimeMillis() but I don't think we've learned that?
+      I'm just using what I can see from the post on stuycs
+      Apparently this isn't using the clock as a seed? I'm so confused*/
       helpConstruct(rows, cols, fileName);
     }
     public WordSearch(int rows, int cols, String fileName, int randSeed) throws FileNotFoundException {
