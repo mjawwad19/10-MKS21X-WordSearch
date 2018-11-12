@@ -7,7 +7,7 @@ public class Drive{
   int defaultCol = 10;
   int defaultSeed = 0;
   String fileName = "";
-  System.out.println("If you wish to try again, please enter arguments in this order: row col fileName <optional> seed");
+  System.out.println("If you wish to try again, please enter arguments in this order: row col fileName <optional> seed  \n\n\n");
   if (args.length > 0) defaultRow = Integer.parseInt(args[0]);
   else System.out.println("Please enter arguments in this order: row col fileName <optional> seed");
   if (args.length > 1) defaultCol = Integer.parseInt(args[1]);
