@@ -111,7 +111,7 @@ public class WordSearch{
           c >= width ||
           rowIncrement == 0 && colIncrement == 0 ||
           rowIncrement > 1 ||
-          colIncrement < -1
+          colIncrement < -1 ||
           r + (len -1) * rowIncrement < 0 ||
           r + (len -1) * rowIncrement >= height ||
           c + (len -1) * colIncrement < 0 ||
