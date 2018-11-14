@@ -51,8 +51,8 @@ public class WordSearch{
       for (int i= 0; i < data. length; i++) {
         for (int j = 0; j < data[i].length; j++) {
           if (data[i][j] == '_') {
-            data[i][j] = letter;
-            letter = Math.abs(r.nextInt()%26) + 'A'l
+            data[i][j] = (char) letter;
+            letter = Math.abs(r.nextInt()%26) + 'A';
           }
         }
       }
