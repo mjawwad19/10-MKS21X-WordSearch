@@ -37,10 +37,16 @@ public class WordSearch{
       }
       addAllWords();
     }
-    public WordSearch(int rows, int cols, String fileName, int randSeed) throws FileNotFoundException {
+    public WordSearch(int rows, int cols, String fileName, int randSeed, boolean answer) throws FileNotFoundException {
       seed = randSeed;
       randgen = new Random(seed);
       helpConstruct(rows, cols, fileName);
+      if (!answer) {
+        fillAllUnder();
+      }
+    }
+    private void fillAllUnder() {
+
     }
     /**Set all values in the WordSearch to underscores'_'*/
     private void clear(){
@@ -171,8 +177,7 @@ public class WordSearch{
     int defaultCol = 10;
     int defaultSeed;
     Random randgen = new Random();
-    defaultSeed = randgen.nextInt();
-    randgen = new Random(defaultSeed);
+    defaultSeed = Math.abs(randgen.nextInt()%10000);
     String fileName = "";
     boolean answer = false;
     if (args.length > 2) {
@@ -181,10 +186,11 @@ public class WordSearch{
       defaultCol = Integer.parseInt(args[1]);
     }
     else {System.out.println("Please enter arguments in this order: row col fileName <optional> seed <optional> answer \n");}
-    if (args.length > 3) defaultSeed = Integer.parseInt(args[3]);
+    if (args.length > 3 && !(Integer.parseInt(args[3]) < 0 || Integer.parseInt(args[3]) > 10000)) defaultSeed = Integer.parseInt(args[3]);
+    else {System.out.println("Please enter a seed within the range of 0 to 10,000");}
     if (args.length > 4 && (args[4].equals("key"))) answer = true;
     try {
-        WordSearch grid1 = new WordSearch(defaultRow, defaultCol, fileName, defaultSeed);
+        WordSearch grid1 = new WordSearch(defaultRow, defaultCol, fileName, defaultSeed, answer);
         System.out.println(grid1);
     }catch(FileNotFoundException e) {
       System.out.println("File not found: " + fileName + " Please create one");
