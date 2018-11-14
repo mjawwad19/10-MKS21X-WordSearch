@@ -37,17 +37,6 @@ public class WordSearch{
       }
       addAllWords();
     }
-    public WordSearch(int rows, int cols, String fileName) throws FileNotFoundException {
-      randgen = new Random();
-      seed = randgen.nextInt();
-      randgen = new Random(seed);
-      //I still don't know if this is correct :/
-      /*so I talked to Ethan and Victor and apparently this isn't the way to go
-      and I should be using System.currentTimeMillis() but I don't think we've learned that?
-      I'm just using what I can see from the post on stuycs
-      Apparently this isn't using the clock as a seed? I'm so confused*/
-      helpConstruct(rows, cols, fileName);
-    }
     public WordSearch(int rows, int cols, String fileName, int randSeed) throws FileNotFoundException {
       seed = randSeed;
       randgen = new Random(seed);
@@ -78,7 +67,9 @@ public class WordSearch{
          String out = "|";
          for (int i = 0; i < data.length; i++) {
              for (int j = 0; j < data[i].length; j++) {
-                 out += data[i][j];
+               if (data[i][j] == '_') {out += ' ';}
+               else{
+                 out += data[i][j];}
                  if (j != data[i].length-1) out += ' ';
              }
              if (i != data.length-1) out += "|" + '\n' + "|";
@@ -178,28 +169,23 @@ public class WordSearch{
     public static void main(String[] args) {
     int defaultRow = 10;
     int defaultCol = 10;
-    int defaultSeed = 0;
+    int defaultSeed;
+    Random randgen = new Random();
+    defaultSeed = randgen.nextInt();
+    randgen = new Random(defaultSeed);
     String fileName = "";
-    int answer = 0;
-    System.out.println("If you wish to try again, please enter arguments in this order: row col fileName <optional> seed <optional> answer \n\n\n");
-    if (args.length > 0) defaultRow = Integer.parseInt(args[0]);
-    else System.out.println("Please enter arguments in this order: row col fileName <optional> seed <optional> answer");
-    if (args.length > 1) defaultCol = Integer.parseInt(args[1]);
-    else System.out.println("Please enter arguments in this order: row col fileName <optional> seed <optional> answer");
-    if (args.length > 2) fileName = args[2];
-    else {System.out.println("Please enter a file to use for the wordsearch in this order: row col fileName <optional> seed <optional> answer");}
+    boolean answer = false;
+    if (args.length > 2) {
+      fileName = args[2];
+      defaultRow = Integer.parseInt(args[0]);
+      defaultCol = Integer.parseInt(args[1]);
+    }
+    else {System.out.println("Please enter arguments in this order: row col fileName <optional> seed <optional> answer \n");}
     if (args.length > 3) defaultSeed = Integer.parseInt(args[3]);
-    if (args.length > 4 && (args[4].equals("key"))) answer = 1;
+    if (args.length > 4 && (args[4].equals("key"))) answer = true;
     try {
-      if (args.length == 0 ) System.out.println("You have not inputted any terminal arguments for me to run a WordSearch. Please put in this order: row col fileName <optional> seed");
-      if (defaultSeed != 0) {
         WordSearch grid1 = new WordSearch(defaultRow, defaultCol, fileName, defaultSeed);
         System.out.println(grid1);
-    }
-      else {
-        WordSearch grid1 = new WordSearch(defaultRow, defaultCol, fileName);
-        System.out.println(grid1);
-      }
     }catch(FileNotFoundException e) {
       System.out.println("File not found: " + fileName + " Please create one");
       System.exit(1);
