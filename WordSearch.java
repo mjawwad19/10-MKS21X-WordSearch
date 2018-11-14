@@ -189,15 +189,20 @@ public class WordSearch{
     defaultSeed = Math.abs(randgen.nextInt()%10000);
     String fileName = "";
     boolean answer = false;
+    String help0 = "Please enter arguments in this order: row col fileName [seed [answer]] \n";
+    String help1 = "Please enter a seed within the range of 0 to 10,000";
     if (args.length > 2) {
       fileName = args[2];
       defaultRow = Integer.parseInt(args[0]);
       defaultCol = Integer.parseInt(args[1]);
     }
-    else {System.out.println("Please enter arguments in this order: row col fileName <optional> seed <optional> answer \n");}
-    if (args.length > 3 && !(Integer.parseInt(args[3]) < 0 || Integer.parseInt(args[3]) > 10000)) defaultSeed = Integer.parseInt(args[3]);
-    else {System.out.println("Please enter a seed within the range of 0 to 10,000");}
+    else System.out.println(help0);
+    if (args.length > 3) {
+      if (Integer.parseInt(args[3]) > 0 && Integer.parseInt(args[3]) <10000) defaultSeed = Integer.parseInt(args[3]);
+      else System.out.println(help1);
+    }
     if (args.length > 4 && (args[4].equals("key"))) answer = true;
+
     try {
         WordSearch grid1 = new WordSearch(defaultRow, defaultCol, fileName, defaultSeed, answer);
         System.out.println(grid1);
@@ -205,7 +210,5 @@ public class WordSearch{
       System.out.println("File not found: " + fileName + " Please create one");
       System.exit(1);
     }
-    System.out.println("If you wish to try again, please enter arguments in this order: row col fileName <optional> seed");
   }
-
-  }
+}
