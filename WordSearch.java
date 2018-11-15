@@ -139,7 +139,10 @@ public class WordSearch{
          Victor explained to me I should randomize the location each time I try to add / explained random to me
          because I was absent
          Ethan caught why some of my words were not adding when they could have with the + 1 for length
-         Peihua also explained the secret of getting the most words in: DO NOT REMOVE BAD WORDS!
+         Peihua also explained the secret of getting the most words in,
+         and suggested I use cleaner for loops instead
+         when I can: DO NOT REMOVE BAD WORDS!
+
          THANK YOU FOR UNCLUTTERING MY CLUNKY METHOD <3*/
        }
     public static void main(String[] args) {
