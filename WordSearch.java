@@ -120,7 +120,7 @@ public class WordSearch{
       }
       return true;
     }
-    // Bless Victor and Ethan for explaining so much for this to work all the way
+    // Bless Victor, Peihua, and Ethan for explaining so much for this to work all the way
     private void addAllWords() {
       int countFail = 0; //Mr K's positional tries
       int row, col, rowIncrement,colIncrement,rowSize,colSize;
@@ -154,8 +154,7 @@ public class WordSearch{
             }
             else countFail ++;
           }
-        if (added == false) wordsToAdd.remove(index);
-        //remove a word from being chosen aaain if it cant be added ever - Discussion with Victor
+          //Thanks to Peihua I now understand I should NOT remove a faulty word
       }
     }
     public static void main(String[] args) {
