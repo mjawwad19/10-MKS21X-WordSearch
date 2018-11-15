@@ -126,7 +126,6 @@ public class WordSearch{
           r + (len -1) * rowIncrement >= height || // these 4 right here is if the word CANNOT fit!
           c + (len -1) * colIncrement < 0 ||
           c + (len - 1) * colIncrement >= width) return false;
-      // this is a combination of col + len > data[row] // row + len > data[col]
       for (int i = 0; i < len; i++) {
         if (data[r +i*rowIncrement] [c +i*colIncrement] != '_' &&
             data[r +i*rowIncrement] [c +i*colIncrement] != word.charAt(i)) return false;
@@ -159,15 +158,14 @@ public class WordSearch{
         a) take too long
         b) then the randomness of word choice is ruined because only a few would
         actually work in a specific position, which would ALSO add more time*/
-        rowSize = height + 1 - len* colIncrement;
-        colSize = width + 1 - len * rowIncrement;
-        // this is to help choose the ideal position to add the word, similar to helper
-        if (rowSize > 0 && colSize > 0) {
+        rowSize = Math.abs(height + 1 - len* colIncrement);
+        colSize = Math.abs(width + 1 - len * rowIncrement);
+        /*this is to help choose the ideal position to add the word, similar to helper
+        Thanks to Ethan for the + 1 tip btw I had areas with blank spots and he was able
+        to point this out*/
           while (countFail < 3600 && added == false) {
-            row = randgen.nextInt()% rowSize;
-            if (row < 0) row += rowSize;
-            col = randgen.nextInt()% colSize;
-            if (col < 0) col += colSize;
+            row = Math.abs(randgen.nextInt()% rowSize);
+            col = Math.abs(randgen.nextInt()% colSize);
             if (addWord(row, col, word, rowIncrement, colIncrement)) {
               wordsAdded.add(wordsToAdd.remove(index));
               //remove a successfully added word and put it into wordsAdded
@@ -176,7 +174,6 @@ public class WordSearch{
             }
             else countFail ++;
           }
-        }
         if (added == false) wordsToAdd.remove(index);
         //remove a word from being chosen aaain if it cant be added ever
       }
@@ -196,10 +193,15 @@ public class WordSearch{
       defaultRow = Integer.parseInt(args[0]);
       defaultCol = Integer.parseInt(args[1]);
     }
-    else System.out.println(help0);
+    else {
+      System.out.println(help0);
+    }
     if (args.length > 3) {
-      if (Integer.parseInt(args[3]) > 0 && Integer.parseInt(args[3]) <10000) defaultSeed = Integer.parseInt(args[3]);
-      else System.out.println(help1);
+      if (Integer.parseInt(args[3]) > 0 && Integer.parseInt(args[3]) <9999) defaultSeed = Integer.parseInt(args[3]);
+      else {
+        System.out.println(help1);
+        System.exit(1);
+      }
     }
     if (args.length > 4 && (args[4].equals("key"))) answer = true;
 
