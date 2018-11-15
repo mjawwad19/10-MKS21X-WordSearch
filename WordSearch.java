@@ -4,6 +4,7 @@ import java.io.*; //file, filenotfoundexception
 
 public class WordSearch{
     private char[][]data;
+    //Props to Ethan for suggesting it would be much easier to have the rows and columns saved so they can be used in addWords
     private int width, height;
     //the random seed used to produce this WordSearch
     private int seed;
@@ -37,6 +38,7 @@ public class WordSearch{
       }
       addAllWords();
     }
+
     public WordSearch(int rows, int cols, String fileName, int randSeed, boolean answer) throws FileNotFoundException {
       seed = randSeed;
       randgen = new Random(seed);
@@ -45,6 +47,7 @@ public class WordSearch{
         fillAllUnder();
       }
     }
+
     private void fillAllUnder() {
       Random r = new Random();
       int letter = Math.abs(r.nextInt()%26) + 'A';
@@ -108,18 +111,19 @@ public class WordSearch{
       *        false when: the word doesn't fit, OR  rowchange and colchange are both 0,
       *        OR there are overlapping letters that do not match
       */
+
     private boolean addWord(int r, int c, String word, int rowIncrement, int colIncrement) {
       int len = word.length();
       word = word.toUpperCase();
       if (r < 0 ||
-          c < 0 ||
+          c < 0 || // can't have negative row or col
           r >= height ||
-          c >= width ||
+          c >= width ||  //can't have a row or col that is greater than the size initialized with
           rowIncrement == 0 && colIncrement == 0 ||
           rowIncrement > 1 ||
-          colIncrement < -1 ||
+          colIncrement < -1 || //now I'm just babying the user oof
           r + (len -1) * rowIncrement < 0 ||
-          r + (len -1) * rowIncrement >= height ||
+          r + (len -1) * rowIncrement >= height || // these 4 right here is if the word CANNOT fit!
           c + (len -1) * colIncrement < 0 ||
           c + (len - 1) * colIncrement >= width) return false;
       // this is a combination of col + len > data[row] // row + len > data[col]
@@ -134,20 +138,16 @@ public class WordSearch{
     }
     // Bless Victor and Ethan for explaining so much for this to work
     private void addAllWords() {
-      int countFail = 0;
+      int countFail = 0; //Mr K's positional tries
       int index = 0;
       int row, col, rowIncrement,colIncrement,rowSize,colSize;
       String word;
-      boolean added;
+      boolean added; //whether the specifc word was added or not
       while (!wordsToAdd.isEmpty()) {
         countFail = 0;
-        //Mr K's positional tries
         added = false;
-        //whether the specifc word was added or not
-        index = randgen.nextInt()%wordsToAdd.size();
+        index = Math.abs(randgen.nextInt()%wordsToAdd.size());
         //randomly select a word from wordsToAdd (step 1)
-        if (index < 0) index += wordsToAdd.size();
-        // solving an index out of bounds ASAP
         word = wordsToAdd.get(index).toUpperCase();
         int len = word.length();
         // for consistency with other fxns
@@ -163,7 +163,7 @@ public class WordSearch{
         colSize = width + 1 - len * rowIncrement;
         // this is to help choose the ideal position to add the word, similar to helper
         if (rowSize > 0 && colSize > 0) {
-          while (countFail < 100 && added == false) {
+          while (countFail < 3600 && added == false) {
             row = randgen.nextInt()% rowSize;
             if (row < 0) row += rowSize;
             col = randgen.nextInt()% colSize;
