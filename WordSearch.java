@@ -8,6 +8,7 @@ public class WordSearch{
     private Random randgen;
     private ArrayList<String> wordsToAdd;
     private ArrayList<String> wordsAdded;
+    private int maxWordsToAdd;
 
     /*fillAllUnder fills in all blank spaces with a randomly generated letter
     only when the user doesn't specify they want the anwer key*/
@@ -23,6 +24,7 @@ public class WordSearch{
       while (in.hasNext()) {
         wordsToAdd.add(in.nextLine().toUpperCase());
       }
+      maxWordsToAdd = wordsToAdd.size();
       addAllWords();
     }
     private void fillAllUnder() {
@@ -74,10 +76,9 @@ public class WordSearch{
              }
              if (i != data.length-1) out += "|" + '\n' + "|";
          }
-         out += "|" + '\n';
-         out += "Words: " + ALToString(wordsAdded);
+         out += "| \nWords:  " + ALToString(wordsAdded) + "\n\n";
          //System.out.println("Words not added: " + ALToString(wordsToAdd));
-         out += " (seed: " + seed + ")" + "\n\n" + wordsAdded.size();
+         out += "(seed: " + seed + ")" + "\n" + wordsAdded.size() + "/" + maxWordsToAdd +" words added";
          return out;
      }
      /**Attempts to add a given word to the specified position of the WordGrid.
