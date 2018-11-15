@@ -9,13 +9,7 @@ public class WordSearch{
     private ArrayList<String> wordsToAdd;
     private ArrayList<String> wordsAdded;
 
-    //choose a randSeed using the clock random
-    /**Initialize the grid to the size specified
-     *and fill all of the positions with '_'
-     *@param row is the starting height of the WordSearch
-     *@param col is the starting width of the WordSearch
-    helpConstruct is repetitive code in constructors
-    fillAllUnder fills in all blank spaces with a randomly generated letter
+    /*fillAllUnder fills in all blank spaces with a randomly generated letter
     only when the user doesn't specify they want the anwer key*/
     private void helpConstruct(int rows, int cols, String fileName) throws FileNotFoundException {
       if (rows <= 0 ||
@@ -69,10 +63,6 @@ public class WordSearch{
       }
       return out;
     }
-    /**Each row is a new line, there is a space between each letter
-     *@return a String with each character separated by spaces, and rows
-     *separated by newlines.
-     */
     public String toString() {
          String out = "|";
          for (int i = 0; i < data.length; i++) {
@@ -87,7 +77,7 @@ public class WordSearch{
          out += "|" + '\n';
          out += "Words: " + ALToString(wordsAdded);
          //System.out.println("Words not added: " + ALToString(wordsToAdd));
-         out += " (seed: " + seed + ")";
+         out += " (seed: " + seed + ")" + "\n\n" + wordsAdded.size();
          return out;
      }
      /**Attempts to add a given word to the specified position of the WordGrid.
@@ -151,10 +141,10 @@ public class WordSearch{
         actually work in a specific position, which would ALSO add more time*/
         rowSize = Math.abs(data.length + 1 - len* colIncrement);
         colSize = Math.abs(data[0].length + 1 - len * rowIncrement);
-        /*this is to help choose the ideal position to add the word, similar to helper
+        /*this is to help choose the ideal position to add the word, similar to helper addWord
         Thanks to Ethan for the + 1 tip btw I had areas with blank spots and he was able
         to point this out*/
-          while (countFail < 3600 && added == false) {
+          while (countFail < data.length*data[0].length && added == false) {
             row = Math.abs(randgen.nextInt()% rowSize);
             col = Math.abs(randgen.nextInt()% colSize);
             if (addWord(row, col, word, rowIncrement, colIncrement)) {
