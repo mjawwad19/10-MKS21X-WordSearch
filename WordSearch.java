@@ -1,7 +1,6 @@
 import java.util.*; //random, scanner, arraylist
 import java.io.*; //file, filenotfoundexception
 
-
 public class WordSearch{
     private char[][]data;
     private int seed;
@@ -76,11 +75,9 @@ public class WordSearch{
              }
              if (i != data.length-1) out += "|" + '\n' + "|";
          }
-         out += "| \nWords:  " + ALToString(wordsAdded) + "\n\n";
-         //System.out.println("Words not added: " + ALToString(wordsToAdd));
-         out += "(seed: " + seed + ")" + "\n" + wordsAdded.size() + "/" + maxWordsToAdd +" words added";
+         out += "| \nWords:  " + ALToString(wordsAdded) + "(seed: " + seed + ")";
          return out;
-     }
+     } // fixed toString after talking with Mr.K if I could add the extra stuff [aka debugging stuff] he said no
      /**Attempts to add a given word to the specified position of the WordGrid.
       *The word is added in the direction rowIncrement,colIncrement
       *Words must have a corresponding letter to match any letters that it overlaps.
@@ -95,7 +92,7 @@ public class WordSearch{
       *        OR there are overlapping letters that do not match
       */
 
-    private boolean addWord(int r, int c, String word, int rowIncrement, int colIncrement) {
+    private boolean addWord(String word, int r, int c, int rowIncrement, int colIncrement) {
       int len = word.length();
       word = word.toUpperCase();
       int x = r + (len -1) * rowIncrement;
@@ -118,45 +115,33 @@ public class WordSearch{
       for (int i = 0; i < len; i++) {
         data[r +i*rowIncrement][c +i*colIncrement] = word.charAt(i);
       }
+      wordsAdded.add(word);
+      wordsToAdd.remove(word); //Peihua suggested I move my removal and addition to the arrayLists here to clean up my addAllWords in class
       return true;
     }
     // Bless Victor, Peihua, and Ethan for explaining so much for this to work all the way
     private void addAllWords() {
-      int countFail = 0; //Mr K's positional tries
-      int row, col, rowIncrement,colIncrement,rowSize,colSize;
-      String word;
-      boolean added; //whether the specifc word was added or not
-
-      while (wordsToAdd.size()>= 1) {
-        countFail = 0;
-        added = false;
-        int index = (Math.abs(randgen.nextInt()%wordsToAdd.size()));
-        word = wordsToAdd.get(index).toUpperCase();
-        int len = word.length();
-        rowIncrement = randgen.nextInt()%2;
-        colIncrement = randgen.nextInt()%2;
-        /* thanks to an explanation from Victor, I should also randomly generate
-        the position on the grid because otherwise it would
-        a) take too long
-        b) then the randomness of word choice is ruined because only a few would
-        actually work in a specific position, which would ALSO add more time*/
-        rowSize = Math.abs(data.length + 1 - len* colIncrement);
-        colSize = Math.abs(data[0].length + 1 - len * rowIncrement);
-        /*this is to help choose the ideal position to add the word, similar to helper addWord
-        Thanks to Ethan for the + 1 tip btw I had areas with blank spots and he was able
-        to point this out*/
-          while (countFail < data.length*data[0].length && added == false) {
-            row = Math.abs(randgen.nextInt()% rowSize);
-            col = Math.abs(randgen.nextInt()% colSize);
-            if (addWord(row, col, word, rowIncrement, colIncrement)) {
-              wordsAdded.add(wordsToAdd.remove(index));
-              added = true;
-            }
-            else countFail ++;
-          }
-          //Thanks to Peihua I now understand I should NOT remove a faulty word
-      }
-    }
+         String word;
+         for (int i = 0; wordsToAdd.size() > 0 && i < maxWordsToAdd; i++) {
+           int index = Math.abs(randgen.nextInt() % wordsToAdd.size());
+           word = wordsToAdd.get(index);
+           int rowInc = randgen.nextInt() % 2;
+           int colInc = randgen.nextInt() % 2;
+           while (rowInc == 0 && colInc == 0) {
+             rowInc = randgen.nextInt() % 2;
+             colInc = randgen.nextInt() % 2;
+           } // this is to prevent extra fails  when I try addWord :/
+           for (int fail = 0; fail < data.length*data[0].length && !addWord(word,
+                                                  Math.abs(randgen.nextInt() % (data.length + 1)),
+                                                  Math.abs(randgen.nextInt() % (data[0].length + 1)), rowInc, colInc); fail++);
+         } /*
+         Peihua actually showed me the syntax for this for loop and helped clean up my code aLOT so big shout out
+         Victor explained to me I should randomize the location each time I try to add / explained random to me
+         because I was absent
+         Ethan caught why some of my words were not adding when they could have with the + 1 for length
+         Peihua also explained the secret of getting the most words in: DO NOT REMOVE BAD WORDS!
+         THANK YOU FOR UNCLUTTERING MY CLUNKY METHOD <3*/
+       }
     public static void main(String[] args) {
     int defaultRow = 0;
     int defaultCol = 0;
