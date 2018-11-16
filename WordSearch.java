@@ -150,9 +150,11 @@ public class WordSearch{
     int defaultCol = 0;
     int defaultSeed;
     Random randgen = new Random();
-    defaultSeed = Math.abs(randgen.nextInt()%10000);
+    defaultSeed = Math.abs(randgen.nextInt()%10001); //Mr K said 0 to 100000 inclusive so 10000 has to be possible
     String fileName = "";
     boolean answer = false;
+    String help0 = "note a seed is within the range of 0 to 10,000 inclusive";
+    String help1 = "Please enter arguments in this order: row col fileName [seed [answer]]. Enter key in place of answer if you want the solution. Note, a row or column may not be <= 0 ";
     try {
       if (args.length > 2) {
         fileName = args[2];
@@ -160,23 +162,19 @@ public class WordSearch{
         defaultCol = Integer.parseInt(args[1]);
       }
       if (args.length > 3) {
-        if (Integer.parseInt(args[3]) > 0 && Integer.parseInt(args[3]) <9999)
+        if (Integer.parseInt(args[3]) >= 0 && Integer.parseInt(args[3]) <= 10000)
          defaultSeed = Integer.parseInt(args[3]);
-        else {
-          System.out.println( "Please enter a seed within the range of 0 to 10,000");
-          System.exit(1);
-        }
       }
       if (args.length > 4 && (args[4].equals("key"))) answer = true;
       WordSearch grid = new WordSearch(defaultRow, defaultCol, fileName, defaultSeed, answer);
       System.out.println(grid);
     }catch(NumberFormatException e) {
-      System.out.println( "Please enter a seed within the range of 0 to 10,000, not a string.");
+      System.out.println(help0 + " not a string.\n " + help1);
     }catch(FileNotFoundException e) {
-      System.out.println("File not found: " + fileName + " Please create this file if you would like to use it in the same directory");
+      System.out.println("File not found: " + fileName + " Please create this file if you would like to use it in the same directory \n" + help1 + help0);
       System.exit(1);
     }catch(IllegalArgumentException e) {
-      System.out.println("Please enter arguments in this order: row col fileName [seed [answer]]. Enter key in place of answer if you want the solution. Note, a row or column may not be <= 0 \n");
+      System.out.println(help1 + help0);
       System.exit(1);
     }
   }
