@@ -150,10 +150,10 @@ public class WordSearch{
     int defaultCol = 0;
     int defaultSeed;
     Random randgen = new Random();
-    defaultSeed = Math.abs(randgen.nextInt()%10001); //Mr K said 0 to 100000 inclusive so 10000 has to be possible
+    defaultSeed = Math.abs(randgen.nextInt()%10001); //Mr. K said inclusive!
     String fileName = "";
     boolean answer = false;
-    String help0 = "note a seed is within the range of 0 to 10,000 inclusive";
+    String help0 = "note a seed is within the range of 0 to 10,000 inclusive ";
     String help1 = "Please enter arguments in this order: row col fileName [seed [answer]]. Enter key in place of answer if you want the solution. Note, a row or column may not be <= 0 ";
     try {
       if (args.length > 2) {
@@ -162,8 +162,12 @@ public class WordSearch{
         defaultCol = Integer.parseInt(args[1]);
       }
       if (args.length > 3) {
-        if (Integer.parseInt(args[3]) >= 0 && Integer.parseInt(args[3]) <= 10000)
+        if (Integer.parseInt(args[3]) > 0 && Integer.parseInt(args[3]) <9999)
          defaultSeed = Integer.parseInt(args[3]);
+        else {
+          System.out.println( help0 + help1);
+          System.exit(1);
+        }
       }
       if (args.length > 4 && (args[4].equals("key"))) answer = true;
       WordSearch grid = new WordSearch(defaultRow, defaultCol, fileName, defaultSeed, answer);
